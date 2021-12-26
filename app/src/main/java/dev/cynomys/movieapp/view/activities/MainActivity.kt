@@ -6,6 +6,7 @@ import android.util.DisplayMetrics
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.cynomys.movieapp.databinding.ActivityMainBinding
 import dev.cynomys.movieapp.model.Movie
@@ -20,6 +21,9 @@ class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels()
     private val movieList: MutableList<Movie> = mutableListOf()
 
+    private val lastVisibleItemPosition: Int
+        get() = (binding.recyclerView.layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         updateSpanCount()
@@ -31,19 +35,21 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         attachProgressBar(binding.root)
+
         showProgressBar()
-
         setUpRecyclerView()
-
         setUpInfiniteScroll()
-
         setUpSearchView()
-
-        setObsevers()
+        setObservers()
+        callViewModelMethods()
     }
 
-    private fun setObsevers() {
-        viewModel.movieList.observe(this){
+    private fun callViewModelMethods() {
+        viewModel.getMovieList()
+    }
+
+    private fun setObservers() {
+        viewModel.movieList.observe(this) {
             updateRecyclerViewData(it)
         }
 
@@ -80,7 +86,15 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setUpInfiniteScroll() {
-
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val totalItemCount = binding.recyclerView.layoutManager?.itemCount
+                if (totalItemCount == lastVisibleItemPosition + 1) {
+                    viewModel.getMovieList(++page)
+                }
+            }
+        })
     }
 
     private fun setUpSearchView() {

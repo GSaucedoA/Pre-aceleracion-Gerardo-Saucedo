@@ -6,47 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".view.activities.MovieDetailActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:theme="@style/Theme.MovieApp.Detail">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/bg" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/transparent_black">
+                android:layout_height="0dp"
+                android:background="@color/transparent_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/user_score"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
-                    app:layout_constraintStart_toStartOf="@+id/relativeLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+            <LinearLayout
+                android:id="@+id/user_score_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/movie_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <RelativeLayout
-                    android:id="@+id/relativeLayout"
                     android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    app:layout_constraintBottom_toTopOf="@+id/title"
-                    app:layout_constraintEnd_toStartOf="@id/detail"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="120dp">
 
                     <ProgressBar
                         android:id="@+id/progress_bar"
@@ -54,12 +54,11 @@
                         android:layout_height="match_parent"
                         android:indeterminateOnly="false"
                         android:max="100"
-
-                        android:progress="70"
+                        android:progress="80"
                         android:progressDrawable="@drawable/circle_progress_bar" />
 
                     <TextView
-                        android:id="@+id/average_votes"
+                        android:id="@+id/user_score_percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignStart="@id/progress_bar"
@@ -67,84 +66,92 @@
                         android:layout_alignEnd="@id/progress_bar"
                         android:layout_alignBottom="@id/progress_bar"
                         android:gravity="center"
-                        android:textSize="24sp"
+                        android:theme="@style/Theme.MovieApp.Title.White"
                         tools:text="80%" />
-
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/detail"
-                    android:layout_width="160dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/relativeLayout"
-                    app:layout_constraintTop_toTopOf="@+id/relativeLayout">
+                    android:text="@string/user_score"
+                    android:textSize="18sp"
+                    android:theme="@style/Theme.MovieApp.Title.White" />
 
-                    <TextView
-                        android:id="@+id/genres"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        tools:text="Genres:" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/original_language"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="@string/original_language" />
-
-                    <TextView
-                        android:id="@+id/release_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="@string/realease_date" />
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/movie_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:theme="@style/Theme.MovieApp.Info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/user_score_container"
+                app:layout_constraintTop_toTopOf="@id/user_score_container">
 
                 <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
+                    android:id="@+id/genres"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:maxWidth="800dp"
-                    android:padding="16dp"
-                    android:textAlignment="center"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginBottom="16dp"
+                    tools:text="Genres: Action, Thriller, Science, Fiction" />
 
-                    tools:text="Lorem impusm random generated asdas asdas asda asdas asd asd asd asdas asd ad as asd as ad" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/original_language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    tools:text="Original language: en" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+                <TextView
+                    android:id="@+id/release_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    tools:text="Release date: 2021 Nov 12" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/movie_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Overview"
-                android:textColor="@color/black"
-                android:textSize="24sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:padding="8dp"
+                android:theme="@style/Theme.MovieApp.Title.White"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/overview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@id/user_score_container"
+                tools:text="Movie title example" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@id/header">
+
+            <TextView
+                android:id="@+id/overview_title"
+                style="title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/overview"
+                android:theme="@style/Theme.MovieApp.Title" />
+
+            <TextView
+                android:id="@+id/overview_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.MovieApp.Text"
+                tools:text="Este es un ejemplo de un texto muy largo" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

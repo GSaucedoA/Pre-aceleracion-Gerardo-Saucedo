@@ -13,6 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieApp">
         <activity
+            android:name=".view.activities.SplashScreen"
+            android:exported="true"
+            android:theme="@style/Theme.MovieApp.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".view.activities.BaseActivity"
             android:exported="false" />
         <activity
@@ -21,13 +31,7 @@
         <activity
             android:name=".view.activities.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

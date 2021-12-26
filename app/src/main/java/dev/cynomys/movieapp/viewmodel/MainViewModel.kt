@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.cynomys.movieapp.businesslogic.repositories.MovieApiRepo
 import dev.cynomys.movieapp.model.Movie
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,14 +20,10 @@ class MainViewModel @Inject constructor(private val repository: MovieApiRepo) :
     private val _loadingStatus = MutableLiveData(true)
     val loadingStatus: LiveData<Boolean> get() = _loadingStatus
 
-    init {
-        getMovieList()
-    }
-
-    fun getMovieList() {
+    fun getMovieList(page: Int = 1) {
         viewModelScope.launch {
             _loadingStatus.value = true
-            _movieList.value = repository.getMovieList().results
+            _movieList.value = repository.getMovieList(page).results
             _loadingStatus.value = false
         }
     }

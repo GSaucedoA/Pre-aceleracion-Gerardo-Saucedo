@@ -1,17 +1,16 @@
-package dev.cynomys.movieapp
+package dev.cynomys.movieapp.view.adapters
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 import dev.cynomys.movieapp.databinding.CustomRecyclerViewItemBinding
-import dev.cynomys.movieapp.movie.Movie
+import dev.cynomys.movieapp.model.Movie
+import dev.cynomys.movieapp.view.activities.MovieDetailActivity
 
 class MainAdapter(private val movieList: List<Movie>) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>(), Filterable {

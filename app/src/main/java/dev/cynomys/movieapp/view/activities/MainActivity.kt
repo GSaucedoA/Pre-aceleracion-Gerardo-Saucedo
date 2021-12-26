@@ -1,26 +1,24 @@
-package dev.cynomys.movieapp
+package dev.cynomys.movieapp.view.activities
 
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
-import androidx.core.widget.NestedScrollView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import dev.cynomys.movieapp.databinding.ActivityMainBinding
-import dev.cynomys.movieapp.movie.Movie
-import dev.cynomys.movieapp.movie.NetworkStatus
+import dev.cynomys.movieapp.model.Movie
+import dev.cynomys.movieapp.view.adapters.MainAdapter
+import dev.cynomys.movieapp.viewmodel.MainViewModel
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private var page = 1
-    private val viewModel: MainViewModel by viewModels(factoryProducer = { MainViewModelFactory(page) })
-    private val movieList: ArrayList<Movie> = ArrayList()
+    private val viewModel: MainViewModel by viewModels()
+    private val movieList: MutableList<Movie> = mutableListOf()
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -32,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        attachProgressBar(binding.root)
+        showProgressBar()
 
         setUpRecyclerView()
 
@@ -43,22 +43,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setObsevers() {
-        viewModel.movieList.observe(this, { resource ->
-            when (resource.status) {
-                NetworkStatus.LOADING -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                NetworkStatus.SUCCESS -> {
-                    binding.customToolbar.backArrow.text = page.toString()
-                    binding.progressBar.visibility = View.GONE
-                    val data = resource.data ?: emptyList()
-                    updateRecyclerViewData(data)
-                }
-                NetworkStatus.ERROR -> {
-                    Toast.makeText(this, "Error, couldn't load movies", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
+        viewModel.movieList.observe(this){
+            updateRecyclerViewData(it)
+        }
+
+        viewModel.loadingStatus.observe(this) {
+            if (it) showProgressBar() else hideProgressBar()
+        }
     }
 
     private fun setUpRecyclerView() {
@@ -67,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateSpanCount() {
-        (binding.recyclerView.layoutManager as StaggeredGridLayoutManager).spanCount =
+        (binding.recyclerView.layoutManager as GridLayoutManager).spanCount =
             getDynamicSpanCount()
     }
 
@@ -89,12 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpInfiniteScroll() {
-        binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, _ ->
-            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight && page <= 500) {
-                binding.progressBar.visibility = View.VISIBLE
-                viewModel.getMovieList(++page)
-            }
-        })
+
     }
 
     private fun setUpSearchView() {

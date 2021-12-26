@@ -44,6 +44,9 @@ android {
             versionNameSuffix = "-develop"
             buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
             buildConfigField "String", "API_KEY", "\"d7549d10a7d572add6bdffc0a57485f8\""
+            buildConfigField "String", "API_BANNER_BASE_URL", "\"https://image.tmdb.org/t/p/\""
+            buildConfigField "String", "API_BANNER_POSTER_SIZE_W500", "\"w500\""
+            buildConfigField "String", "API_BANNER_BACKDROP_SIZE_W780", "\"w780\""
         }
     }
     buildFeatures {

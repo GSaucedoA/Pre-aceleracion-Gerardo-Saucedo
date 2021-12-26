@@ -7,6 +7,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import dev.cynomys.movieapp.BuildConfig
 
 import dev.cynomys.movieapp.databinding.CustomRecyclerViewItemBinding
 import dev.cynomys.movieapp.model.Movie
@@ -65,12 +66,12 @@ class MainAdapter(private val movieList: List<Movie>) :
             with(binding) {
                 root.setOnClickListener {
                     val intent = Intent(root.context, MovieDetailActivity::class.java)
-                    intent.putExtra("movie", movie)
+                    intent.putExtra("id", movie.id)
                     root.context.startActivity(intent)
                 }
                 title.text = movie.title
                 Glide.with(root)
-                    .load("https://image.tmdb.org/t/p/w500/${movie.posterImage}")
+                    .load(BuildConfig.API_BANNER_BASE_URL + BuildConfig.API_BANNER_POSTER_SIZE_W500 + poster)
                     .into(poster)
             }
         }

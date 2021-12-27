@@ -6,7 +6,9 @@
 
     <string name="overview">Overview</string>
     <string name="user_score">User score</string>
+
     <string name="genres">Genres: %1$s</string>
     <string name="original_language">Original language: %1$s</string>
     <string name="realease_date">Realease date: %1$s</string>
+    <string name="user_score_percentage">%1$d%%</string>
 </resources>

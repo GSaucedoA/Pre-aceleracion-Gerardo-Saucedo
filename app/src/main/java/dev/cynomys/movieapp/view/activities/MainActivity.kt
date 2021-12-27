@@ -84,7 +84,6 @@ class MainActivity : BaseActivity() {
         val lastSize = movieList.size
         movieList.addAll(data)
         binding.recyclerView.adapter?.notifyItemRangeChanged(lastSize, data.size)
-        //binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     private fun setUpInfiniteScroll() {
@@ -92,7 +91,7 @@ class MainActivity : BaseActivity() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val totalItemCount = binding.recyclerView.layoutManager?.itemCount
-                if (totalItemCount == lastVisibleItemPosition + 1) {
+                if (totalItemCount == lastVisibleItemPosition + 1 && binding.customToolbar.search.isIconified) {
                     viewModel.getMovieList(++page)
                 }
             }

@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.cynomys.movieapp.businesslogic.repositories.MovieApiRepo
 import dev.cynomys.movieapp.model.Movie
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

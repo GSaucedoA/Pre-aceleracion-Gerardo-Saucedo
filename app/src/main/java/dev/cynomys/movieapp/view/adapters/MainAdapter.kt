@@ -71,7 +71,7 @@ class MainAdapter(private val movieList: List<Movie>) :
                 }
                 title.text = movie.title
                 Glide.with(root)
-                    .load(BuildConfig.API_BANNER_BASE_URL + BuildConfig.API_BANNER_POSTER_SIZE_W500 + poster)
+                    .load(BuildConfig.API_IMAGE_BASE_URL + BuildConfig.API_BANNER_POSTER_SIZE_W500 + movie.posterImage)
                     .into(poster)
             }
         }

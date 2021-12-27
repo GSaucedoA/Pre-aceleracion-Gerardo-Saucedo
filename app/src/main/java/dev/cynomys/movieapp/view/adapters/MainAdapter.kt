@@ -28,33 +28,33 @@ class MainAdapter(private val movieList: List<Movie>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(movieFilteredList.get(position))
+        holder.bind(movieFilteredList[position])
     }
 
     override fun getItemCount(): Int = movieFilteredList.size
 
     override fun getFilter(): Filter {
         return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
+            override fun performFiltering(constraint: CharSequence): FilterResults {
                 val charSearch = constraint.toString()
-                if (charSearch.isEmpty()) {
-                    movieFilteredList = movieList
+                movieFilteredList = if (charSearch.isEmpty()) {
+                    movieList
                 } else {
-                    val resultList = ArrayList<Movie>()
+                    val resultList = mutableListOf<Movie>()
                     movieList.forEach {
                         if (it.title.lowercase().contains(charSearch.lowercase())) {
                             resultList.add(it)
                         }
                     }
-                    movieFilteredList = resultList
+                    resultList
                 }
                 val filterResult = FilterResults()
                 filterResult.values = movieFilteredList
                 return filterResult
             }
 
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                movieFilteredList = results?.values as ArrayList<Movie>
+            override fun publishResults(constraint: CharSequence, results: FilterResults) {
+                movieFilteredList = results.values as ArrayList<Movie>
                 notifyDataSetChanged()
             }
         }

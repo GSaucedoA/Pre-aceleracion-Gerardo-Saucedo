@@ -2,11 +2,11 @@ package dev.cynomys.movieapp.view.activities
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.DisplayMetrics
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.window.layout.WindowMetricsCalculator
 import dagger.hilt.android.AndroidEntryPoint
 import dev.cynomys.movieapp.databinding.ActivityMainBinding
 import dev.cynomys.movieapp.model.Movie
@@ -69,20 +69,22 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getDynamicSpanCount(): Int {
-        val display = windowManager.defaultDisplay
-        val outMetrics = DisplayMetrics()
-
-        display.getMetrics(outMetrics)
-
+        val dpWith: Float
         val density = resources.displayMetrics.density
-        val dpWith = outMetrics.widthPixels / density
+        val windowMetrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
+        val currentBounds = windowMetrics.bounds
+        val width = currentBounds.width()
+
+        dpWith = width / density
 
         return (dpWith / 173).toInt()
     }
 
     private fun updateRecyclerViewData(data: List<Movie>) {
+        val lastSize = movieList.size
         movieList.addAll(data)
-        binding.recyclerView.adapter?.notifyDataSetChanged()
+        binding.recyclerView.adapter?.notifyItemRangeChanged(lastSize, data.size)
+        //binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     private fun setUpInfiniteScroll() {

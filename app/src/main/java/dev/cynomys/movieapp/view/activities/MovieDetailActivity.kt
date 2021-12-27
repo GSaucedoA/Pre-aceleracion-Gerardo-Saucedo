@@ -9,7 +9,7 @@ import dev.cynomys.movieapp.R
 import dev.cynomys.movieapp.databinding.ActivityMovieDetailBinding
 import dev.cynomys.movieapp.model.FullMovie
 import dev.cynomys.movieapp.viewmodel.MovieDetailViewModel
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 
 @AndroidEntryPoint
 class MovieDetailActivity : BaseActivity() {
@@ -50,7 +50,10 @@ class MovieDetailActivity : BaseActivity() {
             Glide.with(binding.root.context)
                 .load(BuildConfig.API_IMAGE_BASE_URL + BuildConfig.API_BANNER_BACKDROP_SIZE_W780 + movie.backdropImage)
                 .into(banner)
-            userScorePercentage.text = "${(movie.voteAverage * 10).toInt()}%"
+            val percentage = (movie.voteAverage * 10).toInt()
+            progressBar.progress = percentage
+            userScorePercentage.text =
+                getString(R.string.user_score_percentage, percentage)
             movieTitle.text = movie.title
 
             genres.text = getString(
@@ -59,9 +62,8 @@ class MovieDetailActivity : BaseActivity() {
             )
             originalLanguage.text = getString(R.string.original_language, movie.originalLanguage)
             releaseDate.text = getString(
-                R.string.realease_date, SimpleDateFormat("yyyy MMM d").format(
-                    movie.releaseDate
-                )
+                R.string.realease_date,
+                DateFormat.getDateInstance().format(movie.releaseDate)
             )
 
             overviewDescription.text = movie.overview

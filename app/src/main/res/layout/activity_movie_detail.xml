@@ -54,8 +54,8 @@
                         android:layout_height="match_parent"
                         android:indeterminateOnly="false"
                         android:max="100"
-                        android:progress="80"
-                        android:progressDrawable="@drawable/circle_progress_bar" />
+                        android:progressDrawable="@drawable/circle_progress_bar"
+                        tools:progress="80" />
 
                     <TextView
                         android:id="@+id/user_score_percentage"

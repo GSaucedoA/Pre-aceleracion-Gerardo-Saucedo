@@ -44,7 +44,7 @@ android {
             versionNameSuffix = "-develop"
             buildConfigField "String", "API_URL", "\"https://api.themoviedb.org/3/\""
             buildConfigField "String", "API_KEY", "\"d7549d10a7d572add6bdffc0a57485f8\""
-            buildConfigField "String", "API_BANNER_BASE_URL", "\"https://image.tmdb.org/t/p/\""
+            buildConfigField "String", "API_IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/\""
             buildConfigField "String", "API_BANNER_POSTER_SIZE_W500", "\"w500\""
             buildConfigField "String", "API_BANNER_BACKDROP_SIZE_W780", "\"w780\""
         }
@@ -87,4 +87,5 @@ dependencies {
     kapt 'com.google.dagger:hilt-compiler:2.40.5'
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
 
+    implementation("androidx.window:window:1.0.0-rc01")
 }

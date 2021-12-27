@@ -48,7 +48,7 @@ class MovieDetailActivity : BaseActivity() {
     private fun inflateMovie(movie: FullMovie) {
         with(binding) {
             Glide.with(binding.root.context)
-                .load(BuildConfig.API_BANNER_BASE_URL + BuildConfig.API_BANNER_BACKDROP_SIZE_W780 + movie.backdropImage)
+                .load(BuildConfig.API_IMAGE_BASE_URL + BuildConfig.API_BANNER_BACKDROP_SIZE_W780 + movie.backdropImage)
                 .into(banner)
             userScorePercentage.text = "${(movie.voteAverage * 10).toInt()}%"
             movieTitle.text = movie.title
